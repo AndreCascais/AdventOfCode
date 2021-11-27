@@ -65,7 +65,6 @@ int main()
     auto failureIdx = getFirstFailureIndex();
     auto prefSum = generatePrefixSumList(failureIdx);
     auto [first, last] = getSequence(failureIdx, prefSum);
-    // std::cout << "first: " << first << ", last: " << last << '\n';
     auto minimum =
         *std::min_element(code.begin() + first, code.begin() + last + 1);
     auto maximum =
