@@ -133,6 +133,7 @@ int main()
         }
         std::cout << sum << '\n';
     }
+    seats = originalSeats;
     {
         std::vector<std::string> next = getNext(seats, false);
         while (next != seats) {
