@@ -73,9 +73,10 @@ auto sumBoard = [](const auto& board) {
     return sum;
 };
 
-int getFirstWinner(std::vector<std::vector<std::vector<int>>> boards,
-                   const std::unordered_multimap<int, BoardCell>& numberMap,
-                   const std::vector<int>& draw)
+int getWinner(std::vector<Board> boards,
+              const std::unordered_multimap<int, BoardCell>& numberMap,
+              const std::vector<int>& draw,
+              int winnerPosition)
 {
     int nBoards = boards.size();
     int nRows = boards[0].size();
@@ -84,40 +85,7 @@ int getFirstWinner(std::vector<std::vector<std::vector<int>>> boards,
     std::vector<std::vector<int>> rows(nBoards, std::vector<int>(nRows));
     std::vector<std::vector<int>> cols(nBoards, std::vector<int>(nCols));
 
-    int winnerBoard = -1;
-    int winnerNumber;
-
-    for (const auto& number : draw) {
-        auto [matchesBegin, matchesEnd] = numberMap.equal_range(number);
-        for (auto match = matchesBegin; match != matchesEnd; ++match) {
-            const auto [row, col, board] = match->second;
-            boards[board][row][col] = 0;
-            if (++rows[board][row] == nRows || ++cols[board][col] == nCols) {
-                winnerBoard = board;
-                winnerNumber = number;
-                break;
-            }
-        }
-        if (winnerBoard != -1) {
-            break;
-        }
-    }
-
-    return sumBoard(boards[winnerBoard]) * winnerNumber;
-}
-
-int getLastWinner(std::vector<std::vector<std::vector<int>>>& boards,
-                  const std::unordered_multimap<int, BoardCell>& numberMap,
-                  const std::vector<int>& draw)
-{
-    int nBoards = boards.size();
-    int nRows = boards[0].size();
-    int nCols = boards[0][0].size();
-
-    std::vector<std::vector<int>> rows(nBoards, std::vector<int>(nRows));
-    std::vector<std::vector<int>> cols(nBoards, std::vector<int>(nCols));
     std::vector<int> winners{};
-
     int winnerBoard;
     int winnerNumber;
 
@@ -125,8 +93,7 @@ int getLastWinner(std::vector<std::vector<std::vector<int>>>& boards,
         auto [matchesBegin, matchesEnd] = numberMap.equal_range(number);
         for (auto match = matchesBegin; match != matchesEnd; ++match) {
             const auto [row, col, board] = match->second;
-            if (std::find(winners.begin(), winners.end(), board) !=
-                winners.end()) {
+            if (std::find(winners.begin(), winners.end(), board) != winners.end()) {
                 continue;
             }
             boards[board][row][col] = 0;
@@ -136,7 +103,7 @@ int getLastWinner(std::vector<std::vector<std::vector<int>>>& boards,
                 winners.emplace_back(winnerBoard);
             }
         }
-        if (winners.size() == boards.size()) {
+        if (winners.size() == winnerPosition) {
             break;
         }
     }
@@ -151,7 +118,7 @@ int main()
     auto numberMap = constructNumberMap(boards);
 
     std::cout << "sum * number for first board:"
-              << getFirstWinner(boards, numberMap, draw) << '\n';
+              << getWinner(boards, numberMap, draw, 1) << '\n';
     std::cout << "sum * number for last board:"
-              << getLastWinner(boards, numberMap, draw) << '\n';
+              << getWinner(boards, numberMap, draw, boards.size()) << '\n';
 }
