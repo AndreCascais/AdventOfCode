@@ -12,7 +12,7 @@ val prioSum = rucksacks
 
 println("prioSum: $prioSum")
 
-// for each group (three chunks) map it to a set and aggregate the set intersections
+// for each group (three chunks) map each chunk to a set and aggregate the intersections
 val rucksacksGrouped = input.chunked(3)
 val prioSumGrouped = rucksacksGrouped
     .map { group -> group.map { it.toSet() } }
