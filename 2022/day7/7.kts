@@ -54,7 +54,7 @@ val dirSizeSumSmallerThanBenchmark = allDirs
 println("Sum of dir sizes <= $benchmarkSize is $dirSizeSumSmallerThanBenchmark")
 
 val smallestDirToDelete =
-    allDirs.map { getDirSize(it) }.filter { it > freeSpaceNeeded }.sorted().first()
+    allDirs.map { getDirSize(it) }.filter { it > freeSpaceNeeded }.min()
 
 println("Smallest dir size to free $freeSpaceNeeded is $smallestDirToDelete")
 
