@@ -1,9 +1,9 @@
-val input = generateSequence { readLine()?.map { it.digitToInt() } }.toList()
-val rows = input.size
-val cols = input[0].size
+val matrix = generateSequence { readLine()?.map { it.digitToInt() } }.toList()
+val rows = matrix.size
+val cols = matrix[0].size
 
 
-fun getTreeList(matrix: List<List<Int>>, coords: Pair<Int, Int>): List<List<Pair<Int, Int>>> {
+fun getTreeList(coords: Pair<Int, Int>): List<List<Pair<Int, Int>>> {
     val (row, col) = coords
     val height = matrix[row][col]
     val right = (col + 1..(cols - 1)).map { Pair(row, it) }
@@ -14,11 +14,11 @@ fun getTreeList(matrix: List<List<Int>>, coords: Pair<Int, Int>): List<List<Pair
 }
 
 val visible =
-    input.mapIndexed { row, wholeRow ->
+    matrix.mapIndexed { row, wholeRow ->
         wholeRow.filterIndexed { col, height ->
-            getTreeList(input, Pair(row, col))
+            getTreeList(Pair(row, col))
                 .any { dir ->
-                    dir.isEmpty() || dir.all { (checkRow, checkCol) -> input[checkRow][checkCol] < height }
+                    dir.isEmpty() || dir.all { (checkRow, checkCol) -> matrix[checkRow][checkCol] < height }
                 }
         }.count()
     }.sum()
@@ -26,11 +26,11 @@ val visible =
 println("$visible")
 
 val bestScore =
-    input.flatMapIndexed { row, wholeRow ->
+    matrix.flatMapIndexed { row, wholeRow ->
         wholeRow.mapIndexed { col, height ->
-            getTreeList(input, Pair(row, col))
+            getTreeList(Pair(row, col))
                 .map { dir ->
-                    dir.indexOfFirst { (checkRow, checkCol) -> input[checkRow][checkCol] >= height }
+                    dir.indexOfFirst { (checkRow, checkCol) -> matrix[checkRow][checkCol] >= height }
                         .let { if (it == -1) dir.size else it + 1 }
                 }
                 .reduce { acc, dist -> acc * dist }
