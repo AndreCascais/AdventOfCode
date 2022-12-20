@@ -1,4 +1,3 @@
-operator fun <T> List<T>.component6(): T = get(5)
 val blueprints =
     generateSequence { readLine() }.map {
         Regex("-?[0-9]+").findAll(it).map(MatchResult::value).toList().map { it.toInt() }.let {
@@ -15,7 +14,6 @@ var maxGeodes = 0
 val blueprintGeodeProductions = blueprints.take(3).mapIndexed { idx, blueprint ->
     val resourceMap = mutableListOf(0, 0, 0, 0)
     val robotMap = mutableListOf(1, 0, 0, 0)
-    println("$blueprint")
     maxGeodes = 0
     getMostGeodes(32, resourceMap, robotMap, blueprint)
 }
