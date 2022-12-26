@@ -76,7 +76,7 @@ fun printMap() {
 }
 
 
-fun BFS(forgotSnacks: Boolean, targets : List<Coord>): Int {
+fun BFS(targets : List<Coord>): Int {
     // blizzard locations for each minute (to cache)
     var blizzardMap = mutableMapOf(0 to initialBlizzards)
     val timeLocationSet = mutableSetOf<Pair<Int, Coord>>()
@@ -118,9 +118,9 @@ fun BFS(forgotSnacks: Boolean, targets : List<Coord>): Int {
     return -1
 }
 
-val pt1 = BFS(false, listOf(finish))
+val pt1 = BFS(listOf(finish))
 println("$pt1")
-val pt2 = BFS(true, listOf(finish, start, finish))
+val pt2 = BFS(listOf(finish, start, finish))
 println("$pt2")
 
 
