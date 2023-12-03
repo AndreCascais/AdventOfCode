@@ -15,10 +15,12 @@ count = 0
 for lineIndex, line in enumerate(document):
     for match in re.finditer("\\d+", line):
         span = (match.start() - 1, match.end() + 1)
-        above = [x for y in document[lineIndex - 1][span[0]:span[1]] for x in y]
-        below = [x for y in document[lineIndex + 1][span[0]:span[1]] for x in y]
+        above = [x for y in document[lineIndex - 1][span[0] : span[1]] for x in y]
+        below = [x for y in document[lineIndex + 1][span[0] : span[1]] for x in y]
         horizontal = [document[lineIndex][span[0]], document[lineIndex][span[1] - 1]]
-        isPartNumber = any(x != "." and not x.isalnum() for x in above + below + horizontal)
+        isPartNumber = any(
+            x != "." and not x.isalnum() for x in above + below + horizontal
+        )
         count += int(match.group()) if isPartNumber else 0
 
 print(count)
@@ -29,11 +31,14 @@ for lineIndex, line in enumerate(document):
         span = (match.start() - 1, match.end() + 1)
         above = [(lineIndex - 1, col) for col in range(span[0], span[1])]
         below = [(lineIndex + 1, col) for col in range(span[0], span[1])]
-        horizontal = [(lineIndex,span[0]), (lineIndex, span[1] - 1)]
-        asterix = [(row, col) for (row, col) in above + below + horizontal if document[row][col] == "*"]
+        horizontal = [(lineIndex, span[0]), (lineIndex, span[1] - 1)]
+        asterix = [
+            (row, col)
+            for (row, col) in above + below + horizontal
+            if document[row][col] == "*"
+        ]
         for ast in asterix:
             partNumberDic[ast].append(int(match.group()))
 gears = [numbers for numbers in partNumberDic.values() if len(numbers) == 2]
 ratioSums = sum([math.prod(gear) for gear in gears])
 print(ratioSums)
-
