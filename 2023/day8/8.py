@@ -23,10 +23,11 @@ while element != 'ZZZ':
     element = networkMap[element][direction]
     steps += 1
 
+# For part2, LCM should not work given that it is not explicit that
+# The first step for a Z value is repeated every step steps.
 elements = [key for key in networkMap.keys() if key[2] == "A"]
 endingElements = [key for key in networkMap.keys() if key[2] == "Z"]
 print(f"AAA reaches ZZZ in {steps} steps")
-
 
 stepMap = []
 for element in elements:
@@ -38,3 +39,4 @@ for element in elements:
     stepMap.append(steps)
 
 print(f"All paths Reached --Z in {math.lcm(*stepMap)} steps")
+
