@@ -15,28 +15,22 @@ networkMap = dict(
     ]
 )
 
-element = "AAA"
-steps = 0
+def getSteps(element, targets):
+    steps = 0
+    while element not in targets:
+        direction = 0 if directions[steps % len(directions)] == "L" else 1
+        element = networkMap[element][direction]
+        steps += 1
+    return steps
 
-while element != 'ZZZ':
-    direction = 0 if directions[steps % len(directions)] == 'L' else 1
-    element = networkMap[element][direction]
-    steps += 1
+print(f"AAA reaches ZZZ in {getSteps('AAA', ['ZZZ'])} steps")
 
 # For part2, LCM should not work given that it is not explicit that
 # The first step for a Z value is repeated every step steps.
 elements = [key for key in networkMap.keys() if key[2] == "A"]
-endingElements = [key for key in networkMap.keys() if key[2] == "Z"]
-print(f"AAA reaches ZZZ in {steps} steps")
+targets = [key for key in networkMap.keys() if key[2] == "Z"]
 
-stepMap = []
-for element in elements:
-    steps = 0
-    while element not in endingElements:
-        direction = 0 if directions[steps % len(directions)] == "L" else 1
-        element = networkMap[element][direction]
-        steps += 1
-    stepMap.append(steps)
+cycles = [getSteps(element, targets) for element in elements]
 
-print(f"All paths Reached --Z in {math.lcm(*stepMap)} steps")
+print(f"All paths Reached --Z in {math.lcm(*cycles)} steps")
 
