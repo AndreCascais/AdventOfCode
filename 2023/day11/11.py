@@ -15,9 +15,9 @@ noGalaxyCols = [
 ]
 
 galaxies = [
-    (row, col)
-    for (row, col) in itertools.product(range(matrix.shape[0]), range(matrix.shape[1]))
-    if matrix[row, col] == "#"
+    coord
+    for coord in itertools.product(range(matrix.shape[0]), range(matrix.shape[1]))
+    if matrix[coord] == "#"
 ]
 
 
