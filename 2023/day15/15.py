@@ -1,3 +1,4 @@
+from collections import defaultdict
 import sys
 from functools import reduce
 import re
@@ -13,8 +14,8 @@ hashSum = sum([hash(step) for step in sequence])
 
 print(hashSum)
 
-d = {}
-boxes = {box: {} for box in range(256)}
+boxes = defaultdict(lambda: defaultdict(int))
+
 for step in sequence:
     op = re.split("=|-", step.strip("-"))
     label = op[0]
